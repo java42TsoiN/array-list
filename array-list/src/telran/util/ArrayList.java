@@ -145,11 +145,10 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
 		boolean res = false;
-		for(int i = 0; i < size; i++) {
+		for(int i = size-1; i >=0; i--) {
 			if (predicate.test(array[i])) {
 				res = true;
-				System.arraycopy(array, i+1, array, i, size-i-1);
-				size--;
+				remove(i);
 			}
 		}
 		return res;
