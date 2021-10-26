@@ -95,8 +95,10 @@ public class ArrayList<T> implements List<T> {
 		}
 		return res;
 	}
+	// V.R. The method name is lastIndexOf
 	@Override
-	public int LastIndexOf(T pattern) {
+//	public int LastIndexOf(T pattern) {
+	public int lastIndexOf(T pattern) {
 		int res = -1;
 		for(int i =size-1; i >=0; i--) {
 			if (array[i].equals(pattern)) {
@@ -131,8 +133,10 @@ public class ArrayList<T> implements List<T> {
 		}
 		return res;
 	}
+	// V.R. The method name is lastIndexOf
 	@Override
-	public int LastIndexOf(Predicate<T> predicate) {
+	public int lastIndexOf(Predicate<T> predicate) {
+//	public int LastIndexOf(Predicate<T> predicate) {
 		int res = -1;
 		for(int i = size-1; i >= 0; i--) {
 			if (predicate.test(array[i])) {
@@ -153,5 +157,22 @@ public class ArrayList<T> implements List<T> {
 		}
 		return res;
 	}
+	/* V.R. Compare the following implementation with yours.
+	   The is the single difference between these implementations. Look at line 154.
+	   Each iteration causes execution res=true. 
+	   It isn't big deal, but a liitle bit significant.
+	   
+		public boolean removeIf(Predicate<T> predicate) {
+			int prevSize = size;
+			for (int index = size - 1; index >= 0; index--) {
+				if (predicate.test(array[index])) {
+					remove(index);
+				}
+			}
+			
+			return prevSize > size;
+		}
+	 */
 
+	
 }
