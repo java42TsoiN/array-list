@@ -133,13 +133,30 @@ public class ArrayList<T> implements List<T> {
 	}
 	@Override
 	public int sortedSearch(T pattern, Comparator comp) {
-		// TODO Auto-generated method stub
-		return 0;
+		// implied array is sorted in accordance with a given comparator
+		int left = 0;
+		int right = size - 1;
+		int middle = 0;
+		int res = -1;
+		while (left <= right) {
+			middle = (left + right) / 2;
+			int resComp = comp.compare(pattern, array[middle]);
+			if (resComp == 0) {
+				res = middle;
+				break;
+			}
+			if (resComp > 0) {
+				left = middle + 1;
+			} else {
+				right = middle - 1;
+			}
+		}
+		return  left > right ? -(left + 1) : res;
 	}
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		array = (T[]) new Object[DEFAULT_CAPACITY];
+		size = 0;
 	}
 	
 
