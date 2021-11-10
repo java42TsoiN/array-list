@@ -5,27 +5,32 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
+
 public class ArrayList<T> implements List<T> {
 	private static final int DEFAULT_CAPACITY = 16;
 	private T[] array;
 	private int size = 0; 
 	private class ArrayListIterator implements Iterator<T>{
-
+		int curInd=0;
+		T current = array[curInd];
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+			return curInd < size && array[curInd] != null;
 		}
 
 		@Override
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			if (current==null) {
+				throw new IndexOutOfBoundsException("No more elements!");
+		    }
+		    current=array[curInd++];
+			return current;
 		}
 		
 		@Override
 		public void remove() {
-			//TODO removes element that has been received from the last next()
+			System.arraycopy(array, curInd + 1, array, curInd, size - curInd);
+			size--;
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -139,16 +144,12 @@ public class ArrayList<T> implements List<T> {
 				remove(i);
 			}
 		}
-		
 		return oldSize > size;
-		//TODO rewrite the method for O[N] complexity
 	}
 	@Override
 	public void sort(Comparator<T> comp) {
 		//O[N*logN]
-//		T tmp[] = Arrays.copyOf(array,size);
 		Arrays.sort(array, 0, size,comp);
-//		System.arraycopy(tmp, 0, array, 0, size);
 		
 	}
 	@Override
@@ -180,8 +181,7 @@ public class ArrayList<T> implements List<T> {
 	}
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayListIterator();
 	}
 	
 
