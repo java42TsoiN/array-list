@@ -6,31 +6,26 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 
-public class ArrayList<T> implements List<T> {
+public class ArrayList<T> extends  AbstractList<T> {
 	private static final int DEFAULT_CAPACITY = 16;
 	private T[] array;
-	private int size = 0; 
 	private class ArrayListIterator implements Iterator<T>{
-		int curInd=0;
-		T current = array[curInd];
+		int current = 0;
 		@Override
 		public boolean hasNext() {
-			return curInd < size && array[curInd] != null;
+			return current < size;
 		}
 
 		@Override
 		public T next() {
-			if (current==null) {
-				throw new IndexOutOfBoundsException("No more elements!");
-		    }
-		    current=array[curInd++];
-			return current;
+			return array[current++];
 		}
 		
 		@Override
 		public void remove() {
-			System.arraycopy(array, curInd + 1, array, curInd, size - curInd);
-			size--;
+			//removes element that has been received from the last next()
+			ArrayList.this.remove(--current);
+			
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -78,11 +73,6 @@ public class ArrayList<T> implements List<T> {
 		return res;
 	}
 
-	@Override
-	public int size() {
-		//O[1]
-		return size;
-	}
 
 	@Override
 	public T get(int index) {
@@ -90,10 +80,7 @@ public class ArrayList<T> implements List<T> {
 		return isValidIndex(index) ? array[index] : null;
 	}
 
-	private boolean isValidIndex(int index) {
-		
-		return index >= 0 && index < size;
-	}
+	
 	@Override
 	public T remove(int index) {
 		//O[N]
